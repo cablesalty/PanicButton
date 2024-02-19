@@ -1,6 +1,6 @@
 <h1 style="text-align:center"><b>Panic Button</b></h1>
 
-#### Display a fake desktop and mute audio on a single keypress
+#### Displays a fake desktop and mutes the audio in a single keypress
 
 ----
 
