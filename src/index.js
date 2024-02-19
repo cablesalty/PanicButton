@@ -2,6 +2,10 @@ const { app, BrowserWindow } = require('electron');
 const path = require('path');
 const { volume } = require('node-audio-windows');
 const gkm = require('gkm');
+const { exec } = require('child_process');
+const os = require('os');
+
+const { muteSystemAudio, unmuteSystemAudio } = require('./mute'); // Custom js file that includes *silencing* the audio 😄
 
 var devmode = process.env.pb_devmode;
 
@@ -84,10 +88,12 @@ gkm.events.on('key.pressed', function (data) {
         if (!panicMode) {
             console.log("Entering panic mode!");
             panicMode = true;
-            createPanicWindow()
+            createPanicWindow();
+            muteSystemAudio();
         } else {
             console.log("Leaving panic mode!");
             panicMode = false;
+            unmuteSystemAudio();
         }
     }
 });
