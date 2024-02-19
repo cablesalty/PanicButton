@@ -1,7 +1,6 @@
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
-
-// TODO: The same script handles the key events and the loading of electron. Reimplement later.
+const { volume } = require('node-audio-windows');
 const gkm = require('gkm');
 
 var devmode = process.env.pb_devmode;
@@ -26,6 +25,24 @@ const createWindow = () => {
 
     // and load the index.html of the app.
     mainWindow.loadFile(path.join(__dirname, 'index.html'));
+
+    if (devmode == "true") {
+        mainWindow.webContents.openDevTools(); // Open the DevTools.
+    }
+};
+
+// Panic window
+const createPanicWindow = () => {
+    // Create the browser window.
+    const mainWindow = new BrowserWindow({
+        fullscreen: true,
+        webPreferences: {
+            preload: path.join(__dirname, 'preload.js'),
+        },
+    });
+
+    // and load the index.html of the app.
+    mainWindow.loadFile(path.join(__dirname, 'panic.html'));
 
     if (devmode == "true") {
         mainWindow.webContents.openDevTools(); // Open the DevTools.
@@ -58,24 +75,19 @@ app.on('activate', () => {
 // code. You can also put them in separate files and import them here.
 
 // Check for all keypresses
-// TODO: Inefficient af. Reimplement later.
-gkm.events.on('key.*', function (data) {
+gkm.events.on('key.pressed', function (data) {
+    // Check if the panic button has been pressed
+    if (data == "F10") {
+        console.log("PB has been pressed!");
 
-    // A key has been pressed
-    if (this.event == "key.pressed") {
-        
-        // The correct key has been pressed.
-        if (data == "F10") {
-            console.log("PB has been pressed!");
-
-            // Not yet in panic mode
-            if (!panicMode) {
-                console.log("Entering panic mode!");
-                panicMode = true;
-            } else {
-                console.log("Leaving panic mode!");
-                panicMode = false;
-            }
+        // Not yet in panic mode
+        if (!panicMode) {
+            console.log("Entering panic mode!");
+            panicMode = true;
+            createPanicWindow()
+        } else {
+            console.log("Leaving panic mode!");
+            panicMode = false;
         }
     }
 });
