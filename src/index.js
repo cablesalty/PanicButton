@@ -1,6 +1,5 @@
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
-const { volume } = require('node-audio-windows');
 const gkm = require('gkm');
 const { exec } = require('child_process');
 const os = require('os');
@@ -46,7 +45,11 @@ const createPanicWindow = () => {
     });
 
     // and load the index.html of the app.
-    mainWindow.loadFile(path.join(__dirname, 'panic.html'));
+    if (process.platform == "darwin") {
+        mainWindow.loadFile(path.join(__dirname, 'panic-mac.html'));
+    } else {
+        mainWindow.loadFile(path.join(__dirname, 'panic-win.html'));
+    }
 
     if (devmode == "true") {
         mainWindow.webContents.openDevTools(); // Open the DevTools.

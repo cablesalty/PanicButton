@@ -8,9 +8,6 @@ function muteSystemAudio() {
         case 'darwin': // macOS
             muteMac();
             break;
-        case 'linux': // Linux
-            muteLinux();
-            break;
         case 'win32': // Windows
             muteWindows();
             break;
@@ -25,9 +22,6 @@ function unmuteSystemAudio() {
     switch (platform) {
         case 'darwin': // macOS
             unmuteMac();
-            break;
-        case 'linux': // Linux
-            unmuteLinux();
             break;
         case 'win32': // Windows
             unmuteWindows();
@@ -55,36 +49,6 @@ function muteMac() {
 // Function to unmute system audio on macOS
 function unmuteMac() {
     exec('osascript -e "set volume without output muted"', (error, stdout, stderr) => {
-        if (error) {
-            console.error(`Error unmuting system audio: ${error.message}`);
-            return;
-        }
-        if (stderr) {
-            console.error(`stderr: ${stderr}`);
-            return;
-        }
-        console.log('System audio unmuted.');
-    });
-}
-
-// Function to mute system audio on Linux
-function muteLinux() {
-    exec('amixer -D pulse sset Master mute', (error, stdout, stderr) => {
-        if (error) {
-            console.error(`Error muting system audio: ${error.message}`);
-            return;
-        }
-        if (stderr) {
-            console.error(`stderr: ${stderr}`);
-            return;
-        }
-        console.log('System audio muted.');
-    });
-}
-
-// Function to unmute system audio on Linux
-function unmuteLinux() {
-    exec('amixer -D pulse sset Master unmute', (error, stdout, stderr) => {
         if (error) {
             console.error(`Error unmuting system audio: ${error.message}`);
             return;
