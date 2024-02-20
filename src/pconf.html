@@ -12,7 +12,7 @@
     <h1>Panic Button</h1>
     <h3>Panic Key</h3>
     <p id="currentlyBoundKeyDisplay">Loading currently bound key...</p>
-    <button onclick="startKeyIdentification()">Change key binding...</button><br>
+    <button onclick="startKeyIdentification()" id="changeBindingBtn">Change key binding...</button><br>
     <br>
     <br>
     <button onclick="saveConfig()" id="saveConfigBtn">Save config</button>
@@ -20,8 +20,6 @@
     <script>
         // Modules
         const fs = require('fs');
-
-        const delay = ms => new Promise(res => setTimeout(res, ms));
 
         // Read config.json synchronously
         const configPath = __dirname + '/config.json'; // Path to config
@@ -40,8 +38,13 @@
 
         function startKeyIdentification() {
             if (!isIdentifying) {
+                document.getElementById("changeBindingBtn").innerHTML = "Press a button!";
                 isIdentifying = true;
                 document.addEventListener("keydown", keyDownHandler);
+            } else {
+                isIdentifying = false;
+                document.removeEventListener("keydown", keyDownHandler);
+                document.getElementById("changeBindingBtn").innerHTML = "Change key binding...";
             }
         }
 
@@ -52,6 +55,7 @@
             modifiedConfig.panickey = pressedKey;
             document.removeEventListener("keydown", keyDownHandler);
             isIdentifying = false;
+            document.getElementById("changeBindingBtn").innerHTML = "Change key binding...";
         }
 
 
