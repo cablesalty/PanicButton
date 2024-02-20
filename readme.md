@@ -21,7 +21,7 @@ Run `setup.bat`
 #### Or install manually:
 ```bat
 npm init -y
-sudo npm i electron electron-forge electron-squirrel-startup gkm
+npm i electron electron-forge electron-squirrel-startup gkm
 ```
 *(requires node.js. Recommended version is v20.6.1 or above)*
 
