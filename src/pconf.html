@@ -38,7 +38,7 @@
 
         function startKeyIdentification() {
             if (!isIdentifying) {
-                document.getElementById("changeBindingBtn").innerHTML = "Press a button!";
+                document.getElementById("changeBindingBtn").innerHTML = "Press a button! (Click to cancel)";
                 isIdentifying = true;
                 document.addEventListener("keydown", keyDownHandler);
             } else {
