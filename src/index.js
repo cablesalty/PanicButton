@@ -3,6 +3,7 @@ const path = require('path');
 const gkm = require('gkm');
 const { exec } = require('child_process');
 const os = require('os');
+const fs = require("fs");
 
 const { muteSystemAudio, unmuteSystemAudio } = require('./mute'); // Custom js file that *silences* the audio
 
@@ -10,6 +11,10 @@ var devmode = process.env.pb_devmode;
 
 var panicMode = false;
 var panicButton = "F10";
+
+const configPath = __dirname + '/config.json';
+const configData = fs.readFileSync(configPath, 'utf8');
+const config = JSON.parse(configData);
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -54,7 +59,7 @@ const createPanicWindow = () => {
 
     // and load the index.html of the app.
     if (process.platform == "darwin") {
-        mainWindow.loadFile(path.join(__dirname, 'panic-mac.html'));
+        mainWindow.loadFile(path.join(__dirname, 'panic-win.html')); //! TEMPORARY
     } else {
         mainWindow.loadFile(path.join(__dirname, 'panic-win.html'));
     }
@@ -108,3 +113,8 @@ gkm.events.on('key.pressed', function (data) {
         }
     }
 });
+
+
+function frontendtest() {
+    console.log("test done");
+}
