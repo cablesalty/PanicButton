@@ -92,29 +92,6 @@ function panicReady() {
     panicWindow.show();
 }
 
-// Dock
-const dockMenu = Menu.buildFromTemplate([
-    {
-        label: 'Open settings',
-        click() {
-            createWindow();
-        }
-    }, {
-        label: "Quit (PB will be disabled!)",
-        click() {
-            app.quit();
-        }
-    }
-    // },
-    // {
-    //     label: 'New Window with Settings',
-    //     submenu: [
-    //         { label: 'Basic' },
-    //         { label: 'Pro' }
-    //     ]
-    // },
-])
-
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
