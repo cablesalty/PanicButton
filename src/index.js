@@ -5,6 +5,8 @@ const { exec } = require('child_process');
 const os = require('os');
 const fs = require("fs");
 
+const platform = os.platform()
+
 const { muteSystemAudio, unmuteSystemAudio } = require('./mute'); // Custom js file that *silences* the audio
 
 var devmode = process.env.pb_devmode;
@@ -56,7 +58,10 @@ const createPanicWindow = () => {
         },
     });
 
-    mainWindow.removeMenu();
+
+    if (platform == "win32") { // Only remove on windows otherwise it crashes MacOS...
+        mainWindow.removeMenu();
+    }
     
     mainWindow.loadFile(path.join(__dirname, 'panic.html'));
 

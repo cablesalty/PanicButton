@@ -12,7 +12,7 @@
     <h1>Panic Button</h1>
     <h3>Panic Key</h3>
     <p id="currentlyBoundKeyDisplay">Loading currently bound key...</p>
-    <button onclick="startKeyIdentification()">Bind new...</button><br>
+    <button onclick="startKeyIdentification()">Change key binding...</button><br>
     <br>
     <br>
     <button onclick="saveConfig()" id="saveConfigBtn">Save config</button>
@@ -58,9 +58,7 @@
         // Function saving
         async function saveConfig() {
             fs.writeFileSync(configPath, JSON.stringify(modifiedConfig, null, 2));
-            await delay(2500);
             document.getElementById("saveConfigBtn").innerHTML = "Saved!";
-
         }
     </script>
 </body>
