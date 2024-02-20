@@ -100,7 +100,7 @@ app.on('activate', () => {
 // Check for all keypresses
 gkm.events.on('key.pressed', function (data) {
     // Check if the panic button has been pressed
-    if (data == "F10") {
+    if (data == config.panickey) {
         console.log("PB has been pressed!");
 
         // Not yet in panic mode
