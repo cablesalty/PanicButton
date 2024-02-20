@@ -81,7 +81,7 @@ const createPanicWindow = () => {
         panicWindow.webContents.openDevTools(); // Open the DevTools.
     }
 
-    mainWindows.webContents.on('did-finish-load',panicReady);
+    panicWindow.webContents.on('did-finish-load',panicReady);
 };
 
 function panicReady() {
