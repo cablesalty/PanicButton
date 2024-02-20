@@ -53,7 +53,7 @@ const createWindow = () => {
 // Panic window
 const createPanicWindow = () => {
     // Create the browser window.
-    const mainWindow = new BrowserWindow({
+    const panicWindow = new BrowserWindow({
         fullscreen: true,
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
@@ -62,13 +62,16 @@ const createPanicWindow = () => {
 
 
     if (platform == "win32") {
-        mainWindow.removeMenu();
+        panicWindow.removeMenu();
     }
     
-    mainWindow.loadFile(path.join(__dirname, 'panic.html'));
+    panicWindow.loadFile(path.join(__dirname, 'panic.html'));
+
+    panicWindow.show();
+    panicWindow.focus();
 
     if (devmode == "true") {
-        mainWindow.webContents.openDevTools(); // Open the DevTools.
+        panicWindow.webContents.openDevTools(); // Open the DevTools.
     }
 };
 
