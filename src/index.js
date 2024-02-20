@@ -57,12 +57,8 @@ const createPanicWindow = () => {
         },
     });
 
-    // and load the index.html of the app.
-    if (process.platform == "darwin") {
-        mainWindow.loadFile(path.join(__dirname, 'panic-win.html')); //! TEMPORARY
-    } else {
-        mainWindow.loadFile(path.join(__dirname, 'panic-win.html'));
-    }
+    // We assume that the mac user knows about compatibility issues...
+    mainWindow.loadFile(path.join(__dirname, 'panic-win.html'));
 
     if (devmode == "true") {
         mainWindow.webContents.openDevTools(); // Open the DevTools.
