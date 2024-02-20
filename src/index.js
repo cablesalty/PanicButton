@@ -18,6 +18,11 @@ const configPath = __dirname + '/config.json';
 const configData = fs.readFileSync(configPath, 'utf8');
 const config = JSON.parse(configData);
 
+const minimizeAllWindowsCommand = `
+Add-Type -Name Window -Namespace Console -MemberDefinition "[DllImport(\\"User32.dll\\\")][returntype:bool]public static extern bool ShowWindow(IntPtr hWnd,int nCmdShow);"
+$AllWindows = [Console.Window]::ShowWindow((([Console.Window]::OpenConsole).GetConsoleWindow()), 2)`;
+
+
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
     app.quit();
@@ -26,6 +31,7 @@ if (require('electron-squirrel-startup')) {
 const createWindow = () => {
     // Create the browser window.
     const mainWindow = new BrowserWindow({
+        resizable: false,
         width: 900,
         height: 600,
         webPreferences: {
@@ -55,6 +61,7 @@ const createPanicWindow = () => {
     // Create the browser window.
     const panicWindow = new BrowserWindow({
         fullscreen: true,
+        resizable: false,
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
         },
@@ -64,7 +71,7 @@ const createPanicWindow = () => {
     if (platform == "win32") {
         panicWindow.removeMenu();
     }
-    
+
     panicWindow.loadFile(path.join(__dirname, 'panic.html'));
 
     panicWindow.show();
@@ -97,8 +104,44 @@ app.on('activate', () => {
     }
 });
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and import them here.
+
+
+// Functions
+function minimizeAllWindows() {
+    if (platform == "win32") {
+        exec(`powershell -command "${minimizeAllWindowsCommand}"`, (error, stdout, stderr) => {
+            if (error) {
+                createPanicWindow();
+                console.error(`Error executing PowerShell command: ${error.message}`);
+                return;
+            }
+            if (stderr) {
+                createPanicWindow();
+                console.error(`PowerShell error: ${stderr}`);
+                return;
+            }
+            console.log('All windows minimized successfully');
+        });
+    }
+}
+
+function poweroff() {
+    if (platform == "win32") {
+        exec(`cmd.exe shutdown -s -t 0`, (error, stdout, stderr) => {
+            if (error) {
+                createPanicWindow();
+                console.error(`Error executing CMD command: ${error.message}`);
+                return;
+            }
+            if (stderr) {
+                createPanicWindow();
+                console.error(`CMD error: ${stderr}`);
+                return;
+            }
+            console.log('Shutdown command successful');
+        });
+    }
+}
 
 // Check for all keypresses
 gkm.events.on('key.pressed', function (data) {
@@ -106,12 +149,27 @@ gkm.events.on('key.pressed', function (data) {
     if (data == config.panickey) {
         console.log("PB has been pressed!");
 
-        // Not yet in panic mode
+        // Check if user is not in panic mode
         if (!panicMode) {
             console.log("Entering panic mode!");
             panicMode = true;
-            createPanicWindow();
+            switch (config.panicreaction) {
+                case "fakedesktop":
+                    createPanicWindow();
+                    break;
+                case "minimizeall":
+                    minimizeAllWindows();
+                    break;
+                case "poweroff":
+                    poweroff();
+                    break;
+                default:
+                    createPanicWindow();
+                    break;
+            }
+
             muteSystemAudio();
+
         } else {
             console.log("Leaving panic mode!");
             panicMode = false;
