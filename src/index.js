@@ -36,7 +36,7 @@ const createWindow = () => {
         },
     });
 
-    if (platform == "win32") { // Only remove on windows otherwise it crashes MacOS...
+    if (platform == "win32") {
         mainWindow.removeMenu();
     }
 
@@ -61,7 +61,7 @@ const createPanicWindow = () => {
     });
 
 
-    if (platform == "win32") { // Only remove on windows otherwise it crashes MacOS...
+    if (platform == "win32") {
         mainWindow.removeMenu();
     }
     
@@ -81,9 +81,9 @@ app.on('ready', createWindow);
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
-    // if (process.platform !== 'darwin') {
-    app.quit();
-    // }
+    if (process.platform !== 'darwin') {
+        app.quit();
+    }
 });
 
 app.on('activate', () => {
