@@ -76,12 +76,12 @@ const createPanicWindow = () => {
     }
 
     panicWindow.loadFile(path.join(__dirname, 'panic.html'));
-    
+
     if (devmode == "true") {
         panicWindow.webContents.openDevTools(); // Open the DevTools.
     }
 
-    panicWindow.webContents.on('did-finish-load',panicReady);
+    panicWindow.webContents.on('did-finish-load', panicReady);
 };
 
 function panicReady() {
@@ -89,6 +89,29 @@ function panicReady() {
     panicWindow.focus();
     panicWindow.show();
 }
+
+// Dock
+const dockMenu = Menu.buildFromTemplate([
+    {
+        label: 'Open settings',
+        click() {
+            createWindow();
+        }
+    }, {
+        label: "Quit (PB will be disabled!)",
+        click() {
+            app.quit();
+        }
+    }
+    // },
+    // {
+    //     label: 'New Window with Settings',
+    //     submenu: [
+    //         { label: 'Basic' },
+    //         { label: 'Pro' }
+    //     ]
+    // },
+])
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -98,11 +121,12 @@ app.on('ready', createWindow);
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
-app.on('window-all-closed', () => {
-    if (process.platform !== 'darwin') {
-        app.quit();
-    }
-});
+//! Disabled due to dock
+// app.on('window-all-closed', () => {
+//     if (process.platform !== 'darwin') {
+//         app.quit();
+//     }
+// });
 
 app.on('activate', () => {
     // On OS X it's common to re-create a window in the app when the
