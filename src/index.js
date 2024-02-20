@@ -1,9 +1,11 @@
-const { app, BrowserWindow, Menu } = require('electron');
+const { app, BrowserWindow, Tray } = require('electron');
 const path = require('path');
 const gkm = require('gkm');
 const { exec } = require('child_process');
 const os = require('os');
 const fs = require("fs");
+
+let tray = null
 
 const platform = os.platform()
 
@@ -135,6 +137,17 @@ app.on('activate', () => {
     }
 });
 
+app.whenReady().then(() => {
+    tray = new Tray();
+    const contextMenu = Menu.buildFromTemplate([
+        { label: 'Item1', type: 'radio' },
+        { label: 'Item2', type: 'radio' },
+        { label: 'Item3', type: 'radio', checked: true },
+        { label: 'Item4', type: 'radio' }
+    ])
+    tray.setToolTip('This is my application.');
+    tray.setContextMenu(contextMenu);
+})
 
 
 // Functions
