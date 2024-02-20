@@ -35,11 +35,8 @@ const createWindow = () => {
     });
 
     // Add OS checks
-    if (process.platform == "win32") {
-        mainWindow.loadFile(path.join(__dirname, 'pconf.html')); // Load configuration file
-    } else {
-        mainWindow.loadFile(path.join(__dirname, 'pconf-lim.html')); // Load limited config
-    }
+    // We assume that the mac user knows about compatibility issues...
+    mainWindow.loadFile(path.join(__dirname, 'pconf.html')); // Load configuration UI
 
 
     if (devmode == "true") {
@@ -57,8 +54,7 @@ const createPanicWindow = () => {
         },
     });
 
-    // We assume that the mac user knows about compatibility issues...
-    mainWindow.loadFile(path.join(__dirname, 'panic-win.html'));
+    mainWindow.loadFile(path.join(__dirname, 'panic.html'));
 
     if (devmode == "true") {
         mainWindow.webContents.openDevTools(); // Open the DevTools.
