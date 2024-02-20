@@ -4,7 +4,7 @@ const gkm = require('gkm');
 const { exec } = require('child_process');
 const os = require('os');
 
-const { muteSystemAudio, unmuteSystemAudio } = require('./mute'); // Custom js file that includes *silencing* the audio 😄
+const { muteSystemAudio, unmuteSystemAudio } = require('./mute'); // Custom js file that *silences* the audio
 
 var devmode = process.env.pb_devmode;
 
@@ -23,11 +23,19 @@ const createWindow = () => {
         height: 600,
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
+            nodeIntegration: true,
+            contextIsolation: false,
+            enableRemoteModule: true
         },
     });
 
-    // and load the index.html of the app.
-    mainWindow.loadFile(path.join(__dirname, 'index.html'));
+    // Add OS checks
+    if (process.platform == "win32") {
+        mainWindow.loadFile(path.join(__dirname, 'pconf.html')); // Load configuration file
+    } else {
+        mainWindow.loadFile(path.join(__dirname, 'pconf-lim.html')); // Load limited config
+    }
+
 
     if (devmode == "true") {
         mainWindow.webContents.openDevTools(); // Open the DevTools.
