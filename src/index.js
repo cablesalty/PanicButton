@@ -34,6 +34,8 @@ const createWindow = () => {
         },
     });
 
+    mainWindow.removeMenu();
+
     // Add OS checks
     // We assume that the mac user knows about compatibility issues...
     mainWindow.loadFile(path.join(__dirname, 'pconf.html')); // Load configuration UI
@@ -54,6 +56,8 @@ const createPanicWindow = () => {
         },
     });
 
+    mainWindow.removeMenu();
+    
     mainWindow.loadFile(path.join(__dirname, 'panic.html'));
 
     if (devmode == "true") {
