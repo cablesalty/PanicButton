@@ -62,6 +62,9 @@ const createPanicWindow = () => {
     const panicWindow = new BrowserWindow({
         fullscreen: true,
         resizable: false,
+        focusable: true,
+        autoHideMenuBar: true,
+        hiddenInMissionControl: true,
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
         },
@@ -73,14 +76,19 @@ const createPanicWindow = () => {
     }
 
     panicWindow.loadFile(path.join(__dirname, 'panic.html'));
-
-    panicWindow.show();
-    panicWindow.focus();
-
+    
     if (devmode == "true") {
         panicWindow.webContents.openDevTools(); // Open the DevTools.
     }
+
+    mainWindows.webContents.on('did-finish-load',panicReady);
 };
+
+function panicReady() {
+    panicWindow.setVisibleOnAllWorkspaces(true);
+    panicWindow.focus();
+    panicWindow.show();
+}
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
