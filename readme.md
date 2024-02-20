@@ -1,8 +1,6 @@
 <h1 style="text-align:center"><b>Panic Button</b></h1>
 
-#### Display a fake desktop and mute audio on a single keypress
-
-----
+### Display a fake desktop and mute audio on a single keypress
 
 ## Compatibility
 Panic Button is **only** compatible with **Windows 10 or above**. Mac functionality is in beta, and Linux compatibility is not possible right now due to inconsistencies between distros and systems.
@@ -28,17 +26,9 @@ sudo npm i electron electron-forge gkm
 *(requires node.js. Recommended version is v20.6.1 or above)*
 
 ### Run the program
-```
-start.bat
-```
-\- or -
-```
-npm start
-```
+Start `start.bat` or `npm start`
 
-## Contribution and Donation
-If you want to know how to contribute to a project by coding, read the [contribution guide]().
+## Donation
+If you want to support the project financially, you can either [donate using GitHub](), [PayPal](), or [cryptocurrency]().
 
-However, if you want to support the project financially, you can either [donate using GitHub](), [PayPal](), or [cryptocurrency]().
-
-Any form of donation or contribution is well appreciated!
+Any form of donation is well appreciated!
