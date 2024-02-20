@@ -36,7 +36,9 @@ const createWindow = () => {
         },
     });
 
-    mainWindow.removeMenu();
+    if (platform == "win32") { // Only remove on windows otherwise it crashes MacOS...
+        mainWindow.removeMenu();
+    }
 
     // Add OS checks
     // We assume that the mac user knows about compatibility issues...
