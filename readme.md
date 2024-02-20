@@ -3,7 +3,7 @@
 ### Display a fake desktop and mute audio on a single keypress
 
 ## Compatibility
-Panic Button is **only** compatible with **Windows 10 or above**. Mac functionality is in beta, and Linux compatibility is not possible right now due to inconsistencies between distros and systems.
+Panic Button is compatible with **Windows 10 or above**. Mac functionality is in beta, and Linux compatibility is not possible right now due to inconsistencies between distros and systems.
 
 ## Setup
 You can either download and install Panic Button by using [the precompiled exe file](), or you can proceed and set up Panic Button manually. **Manual install is not recommended for people who never used node.js**.
