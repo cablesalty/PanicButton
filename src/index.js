@@ -222,6 +222,8 @@ gkm.events.on('key.pressed', function (data) {
             console.log("Leaving panic mode!");
             panicMode = false;
             unmuteSystemAudio();
+            closeAllWindows();
+
         }
     }
 });
