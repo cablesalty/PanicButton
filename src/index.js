@@ -83,7 +83,7 @@ const createPanicWindow = () => {
         panicWindow.webContents.openDevTools(); // Open the DevTools.
     }
 
-    panicWindow.webContents.on('did-finish-load', panicReady);
+    panicWindow.webContents.on('did-finish-load', panicReady(panicWindow));
 };
 
 function panicReady() {
@@ -115,15 +115,17 @@ app.on('activate', () => {
 });
 
 app.whenReady().then(() => {
-    tray = new Tray();
-    const contextMenu = Menu.buildFromTemplate([
-        { label: 'Item1', type: 'radio' },
-        { label: 'Item2', type: 'radio' },
-        { label: 'Item3', type: 'radio', checked: true },
-        { label: 'Item4', type: 'radio' }
-    ])
-    tray.setToolTip('This is my application.');
-    tray.setContextMenu(contextMenu);
+    if (platform == "win32") { // If OS is windows create tray icon
+        tray = new Tray("./logo.png");
+        const contextMenu = Menu.buildFromTemplate([
+            { label: 'Item1', type: 'radio' },
+            { label: 'Item2', type: 'radio' },
+            { label: 'Item3', type: 'radio', checked: true },
+            { label: 'Item4', type: 'radio' }
+        ])
+        tray.setToolTip('This is my application.');
+        tray.setContextMenu(contextMenu);
+    }
 })
 
 
