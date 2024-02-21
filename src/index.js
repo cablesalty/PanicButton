@@ -142,10 +142,6 @@ app.whenReady().then(() => {
 
 
 // Functions
-function minimizeAllWindows() {
-    ks.sendCombination(['left_windows', 'd']);
-}
-
 function poweroff() {
     if (platform == "win32") {
         exec(`cmd.exe shutdown -s -t 0`, (error, stdout, stderr) => {
@@ -186,9 +182,6 @@ gkm.events.on('key.pressed', function (data) {
             switch (config.panicreaction) {
                 case "fakedesktop":
                     createPanicWindow();
-                    break;
-                case "minimizeall":
-                    minimizeAllWindows();
                     break;
                 case "poweroff":
                     poweroff();
