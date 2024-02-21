@@ -1,6 +1,6 @@
 const { exec } = require('child_process');
 const os = require('os');
-const loudness = require('loudness');
+const loudness = require("loudness");
 
 // Function to mute system audio based on the operating system
 function muteSystemAudio() {
