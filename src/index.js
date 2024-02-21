@@ -4,7 +4,6 @@ const gkm = require('gkm');
 const { exec } = require('child_process');
 const os = require('os');
 const fs = require("fs");
-const ks = require('node-key-sender');
 
 let tray = null
 

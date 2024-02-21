@@ -1,5 +1,6 @@
 const { exec } = require('child_process');
 const os = require('os');
+const loudness = require('loudness');
 
 // Function to mute system audio based on the operating system
 function muteSystemAudio() {
@@ -33,13 +34,9 @@ function unmuteSystemAudio() {
 
 // Function to mute system audio on macOS
 function muteMac() {
-    exec('osascript -e "set volume with output muted"', (error, stdout, stderr) => {
+    loudness.setMuted(true, (error) => {
         if (error) {
             console.error(`Error muting system audio: ${error.message}`);
-            return;
-        }
-        if (stderr) {
-            console.error(`stderr: ${stderr}`);
             return;
         }
         console.log('System audio muted.');
@@ -48,13 +45,9 @@ function muteMac() {
 
 // Function to unmute system audio on macOS
 function unmuteMac() {
-    exec('osascript -e "set volume without output muted"', (error, stdout, stderr) => {
+    loudness.setMuted(false, (error) => {
         if (error) {
             console.error(`Error unmuting system audio: ${error.message}`);
-            return;
-        }
-        if (stderr) {
-            console.error(`stderr: ${stderr}`);
             return;
         }
         console.log('System audio unmuted.');
@@ -78,17 +71,14 @@ function muteWindows() {
 
 // Function to unmute system audio on Windows
 function unmuteWindows() {
-    exec('powershell.exe -Command "(New-Object -ComObject WScript.Shell).SendKeys([char]175)"', (error, stdout, stderr) => {
+    loudness.setMuted(false, (error) => {
         if (error) {
             console.error(`Error unmuting system audio: ${error.message}`);
-            return;
-        }
-        if (stderr) {
-            console.error(`stderr: ${stderr}`);
             return;
         }
         console.log('System audio unmuted.');
     });
 }
+
 
 module.exports = { muteSystemAudio, unmuteSystemAudio };
