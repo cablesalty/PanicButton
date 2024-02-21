@@ -86,6 +86,38 @@ const createPanicWindow = () => {
     });
 };
 
+// External Panic Page
+const createExternalPanicPageWindow = (url) => {
+    // Create the browser window.
+    const panicWindow = new BrowserWindow({
+        fullscreen: true,
+        resizable: false,
+        focusable: true,
+        autoHideMenuBar: true,
+        hiddenInMissionControl: true,
+        webPreferences: {
+            preload: path.join(__dirname, 'preload.js'),
+        },
+    });
+
+
+    if (platform == "win32") {
+        panicWindow.removeMenu();
+    }
+
+    panicWindow.loadURL(url);
+
+    if (devmode == "true") {
+        panicWindow.webContents.openDevTools(); // Open the DevTools.
+    }
+
+    panicWindow.webContents.on('did-finish-load', function () {
+        panicWindow.setVisibleOnAllWorkspaces(true);
+        panicWindow.focus();
+        panicWindow.show();
+    });
+};
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -210,7 +242,22 @@ gkm.events.on('key.pressed', function (data) {
                 case "logout":
                     logout();
                     break;
-                default:
+                case "ythome":
+                    createExternalPanicPageWindow("https://www.youtube.com/");
+                    break;
+                case "ytcablesalty":
+                    createExternalPanicPageWindow("https://www.youtube.com/@cablesalty");
+                    break;
+                case "ytpearoo":
+                    createExternalPanicPageWindow("https://www.youtube.com/@Pearoo");
+                    break;
+                case "github":
+                    createExternalPanicPageWindow("https://github.com");
+                    break;
+                case "facebook":
+                    createExternalPanicPageWindow("https://facebook.com");
+                    break;
+                default: // If invalid shit is selected
                     createPanicWindow();
                     break;
             }
