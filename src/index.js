@@ -116,7 +116,7 @@ app.on('activate', () => {
 
 app.whenReady().then(() => {
     if (platform == "win32") { // If OS is windows create tray icon
-        tray = new Tray("./logo.png");
+        tray = new Tray("logo.png");
         const contextMenu = Menu.buildFromTemplate([
             { label: 'Item1', type: 'radio' },
             { label: 'Item2', type: 'radio' },
