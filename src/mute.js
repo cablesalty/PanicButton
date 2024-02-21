@@ -76,17 +76,17 @@ function muteWindows() {
         }
         console.log('Disabled audio overlay.');
     });
-    exec('powershell.exe -Command "(New-Object -ComObject WScript.Shell).SendKeys([char]174)"', (error, stdout, stderr) => {
-        if (error) {
-            console.error(`Error unmuting system audio: ${error.message}`);
-            return;
-        }
-        if (stderr) {
-            console.error(`stderr: ${stderr}`);
-            return;
-        }
-        console.log('System audio unmuted, ready for muting.');
-    });
+    // exec('powershell.exe -Command "(New-Object -ComObject WScript.Shell).SendKeys([char]174)"', (error, stdout, stderr) => {
+    //     if (error) {
+    //         console.error(`Error unmuting system audio: ${error.message}`);
+    //         return;
+    //     }
+    //     if (stderr) {
+    //         console.error(`stderr: ${stderr}`);
+    //         return;
+    //     }
+    //     console.log('System audio unmuted, ready for muting.');
+    // });
     exec('powershell.exe -Command "(New-Object -ComObject WScript.Shell).SendKeys([char]173)"', (error, stdout, stderr) => {
         if (error) {
             console.error(`Error muting system audio: ${error.message}`);
