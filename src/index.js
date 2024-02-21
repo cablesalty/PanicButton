@@ -116,6 +116,11 @@ app.on('activate', () => {
 
 app.whenReady().then(() => {
     tray = new Tray(__dirname + "/logo.png");
+
+    tray.on("click", (event, bounds, position) => {
+        createWindow();
+    });
+
     const contextMenu = Menu.buildFromTemplate([
         { type: 'separator' },
         {
