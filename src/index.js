@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Tray, Menu } = require('electron');
+const { app, BrowserWindow, Tray, Menu, dialog } = require('electron');
 const path = require('path');
 const gkm = require('gkm');
 const { exec } = require('child_process');
@@ -117,12 +117,26 @@ app.on('activate', () => {
 app.whenReady().then(() => {
     tray = new Tray(__dirname + "/logo.png");
     const contextMenu = Menu.buildFromTemplate([
+        { label: 'Hello World' }, // Change label to "Hello World"
+        { type: 'separator' }, // Add a separator
         { label: 'Item1', type: 'radio' },
         { label: 'Item2', type: 'radio' },
         { label: 'Item3', type: 'radio', checked: true },
-        { label: 'Item4', type: 'radio' }
+        { label: 'Item4', type: 'radio' },
+        { type: 'separator' }, // Add another separator
+        {
+            label: 'Click me', // Add a clickable button
+            click: () => {
+                // Add function here that activates when the button is clicked
+                dialog.showMessageBox({
+                    message: 'Button Clicked!',
+                    detail: 'You clicked the button.',
+                    buttons: ['OK']
+                });
+            }
+        }
     ])
-    tray.setToolTip('This is my application.');
+    tray.setToolTip('PanicButton quick controls');
     tray.setContextMenu(contextMenu);
 })
 
