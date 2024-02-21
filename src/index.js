@@ -34,8 +34,8 @@ const createWindow = () => {
     // Create the browser window.
     const mainWindow = new BrowserWindow({
         resizable: false,
-        width: 900,
-        height: 600,
+        width: 1000,
+        height: 650,
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
             nodeIntegration: true,
@@ -193,6 +193,7 @@ function closeAllWindows() {
 gkm.events.on('key.pressed', function (data) {
     // Check if the panic button has been pressed
     if (data == config.panickey) {
+        closeAllWindows();
         console.log("PB has been pressed!");
 
         // Check if user is not in panic mode
@@ -221,7 +222,6 @@ gkm.events.on('key.pressed', function (data) {
             console.log("Leaving panic mode!");
             panicMode = false;
             unmuteSystemAudio();
-            closeAllWindows();
         }
     }
 });
