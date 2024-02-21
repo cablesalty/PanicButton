@@ -182,7 +182,6 @@ gkm.events.on('key.pressed', function (data) {
         // Check if user is not in panic mode
         if (!panicMode) {
             console.log("Entering panic mode!");
-            closeAllWindows();
             panicMode = true;
             switch (config.panicreaction) {
                 case "fakedesktop":
