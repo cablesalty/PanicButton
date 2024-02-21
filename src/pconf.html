@@ -77,6 +77,9 @@
             modifiedConfig.panicreaction = document.getElementById("pr").value;
             fs.writeFileSync(configPath, JSON.stringify(modifiedConfig, null, 2));
             document.getElementById("saveConfigBtn").innerHTML = "Saved!";
+            setTimeout(() => {
+                document.getElementById("saveConfigBtn").innerHTML = "Save config";
+            }, 2000);
         }
     </script>
 </body>
