@@ -17,8 +17,8 @@ var panicMode = false;
 var panicButton = "F10";
 
 const configPath = __dirname + '/config.json';
-const configData = fs.readFileSync(configPath, 'utf8');
-const config = JSON.parse(configData);
+let configData = fs.readFileSync(configPath, 'utf8');
+let config = JSON.parse(configData);
 
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -226,12 +226,16 @@ gkm.events.on('key.pressed', function (data) {
     // Check if the panic button has been pressed
     if (data == config.panickey) {
         closeAllWindows();
+        // Read config again
+        configData = fs.readFileSync(configPath, 'utf8');
+        config = JSON.parse(configData);
         console.log("PB has been pressed!");
 
         // Check if user is not in panic mode
         if (!panicMode) {
             console.log("Entering panic mode!");
             panicMode = true;
+            console.log(config.panicreaction);
             switch (config.panicreaction) {
                 case "fakedesktop":
                     createPanicWindow();
