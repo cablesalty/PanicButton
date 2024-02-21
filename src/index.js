@@ -20,10 +20,6 @@ const configPath = __dirname + '/config.json';
 const configData = fs.readFileSync(configPath, 'utf8');
 const config = JSON.parse(configData);
 
-const minimizeAllWindowsCommand = `
-Add-Type -Name Window -Namespace Console -MemberDefinition "[DllImport(\\"User32.dll\\\")][returntype:bool]public static extern bool ShowWindow(IntPtr hWnd,int nCmdShow);"
-$AllWindows = [Console.Window]::ShowWindow((([Console.Window]::OpenConsole).GetConsoleWindow()), 2)`;
-
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -147,19 +143,11 @@ app.whenReady().then(() => {
 // Functions
 function minimizeAllWindows() {
     if (platform == "win32") {
-        exec(`powershell -command "${minimizeAllWindowsCommand}"`, (error, stdout, stderr) => {
-            if (error) {
-                createPanicWindow();
-                console.error(`Error executing PowerShell command: ${error.message}`);
-                return;
-            }
-            if (stderr) {
-                createPanicWindow();
-                console.error(`PowerShell error: ${stderr}`);
-                return;
-            }
-            console.log('All windows minimized successfully');
-        });
+        robot.keyToggle('left', 'down', ['command']);
+        robot.keyTap('d');
+        robot.keyToggle('left', 'up', ['command']);
+    } else {
+        createPanicWindow(); // No equivalent key combination (WIN+D), so just override and create panic window.
     }
 }
 
