@@ -14,6 +14,7 @@
     <h3>Panic Key</h3>
     <p id="currentlyBoundKeyDisplay">Loading currently bound key...</p>
     <button onclick="startKeyIdentification()" id="changeBindingBtn">Change key binding...</button><br>
+    <button onclick="resetToDefaultKeybind()" id="changeBindingBtn">Reset to default (F9)</button>
     <br>
     <hr>
     <h3>Panic REACTION</h3>
@@ -74,6 +75,12 @@
             document.removeEventListener("keydown", keyDownHandler);
             isIdentifying = false;
             document.getElementById("changeBindingBtn").innerHTML = "Change key binding...";
+        }
+
+
+        // Resetting to default keybind
+        function resetToDefaultKeybind() {
+            modifiedConfig.panickey = "F9";
         }
 
 
