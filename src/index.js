@@ -117,26 +117,23 @@ app.on('activate', () => {
 app.whenReady().then(() => {
     tray = new Tray(__dirname + "/logo.png");
     const contextMenu = Menu.buildFromTemplate([
-        { label: 'Hello World' }, // Change label to "Hello World"
-        { type: 'separator' }, // Add a separator
-        { label: 'Item1', type: 'radio' },
-        { label: 'Item2', type: 'radio' },
-        { label: 'Item3', type: 'radio', checked: true },
-        { label: 'Item4', type: 'radio' },
-        { type: 'separator' }, // Add another separator
+        { type: 'separator' },
         {
-            label: 'Click me', // Add a clickable button
+            label: 'Quit PanicButton',
             click: () => {
-                // Add function here that activates when the button is clicked
-                dialog.showMessageBox({
-                    message: 'Button Clicked!',
-                    detail: 'You clicked the button.',
-                    buttons: ['OK']
-                });
+                app.quit();
+                process.exit(0);
+            }
+        },
+        { type: 'separator' },
+        {
+            label: 'Open Panic Controller',
+            click: () => {
+                createWindow();
             }
         }
     ])
-    tray.setToolTip('PanicButton quick controls');
+    tray.setToolTip('PanicButton');
     tray.setContextMenu(contextMenu);
 })
 
