@@ -60,6 +60,8 @@ const createWindow = () => {
 
 // Panic window
 const createPanicWindow = () => {
+    closeAllWindows();
+
     // Create the browser window.
     const panicWindow = new BrowserWindow({
         fullscreen: true,
@@ -83,14 +85,12 @@ const createPanicWindow = () => {
         panicWindow.webContents.openDevTools(); // Open the DevTools.
     }
 
-    panicWindow.webContents.on('did-finish-load', panicReady(panicWindow));
+    panicWindow.webContents.on('did-finish-load', function () {
+        panicWindow.setVisibleOnAllWorkspaces(true);
+        panicWindow.focus();
+        panicWindow.show();
+    });
 };
-
-function panicReady() {
-    panicWindow.setVisibleOnAllWorkspaces(true);
-    panicWindow.focus();
-    panicWindow.show();
-}
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -181,6 +181,14 @@ function poweroff() {
             console.log('Shutdown command successful');
         });
     }
+}
+
+// Function to close all windows
+function closeAllWindows() {
+    const windows = BrowserWindow.getAllWindows();
+    windows.forEach(window => {
+        window.close();
+    });
 }
 
 // Check for all keypresses
