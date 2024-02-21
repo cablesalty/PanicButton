@@ -143,7 +143,7 @@ app.whenReady().then(() => {
 // Functions
 function poweroff() {
     if (platform == "win32") {
-        exec(`cmd.exe shutdown -s -t 0`, (error, stdout, stderr) => {
+        exec(`shutdown -s -t 0`, (error, stdout, stderr) => {
             if (error) {
                 createPanicWindow();
                 console.error(`Error executing CMD command: ${error.message}`);
@@ -156,6 +156,28 @@ function poweroff() {
             }
             console.log('Shutdown command successful');
         });
+    } else {
+        createPanicWindow();
+    }
+}
+
+function logout() {
+    if (platform == "win32") {
+        exec(`shutdown -l`, (error, stdout, stderr) => {
+            if (error) {
+                createPanicWindow();
+                console.error(`Error executing CMD command: ${error.message}`);
+                return;
+            }
+            if (stderr) {
+                createPanicWindow();
+                console.error(`CMD error: ${stderr}`);
+                return;
+            }
+            console.log('Shutdown command successful');
+        });
+    } else {
+        createPanicWindow();
     }
 }
 
@@ -184,6 +206,9 @@ gkm.events.on('key.pressed', function (data) {
                     break;
                 case "poweroff":
                     poweroff();
+                    break;
+                case "logout":
+                    logout();
                     break;
                 default:
                     createPanicWindow();
