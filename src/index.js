@@ -142,13 +142,23 @@ app.whenReady().then(() => {
 
 // Functions
 function minimizeAllWindows() {
-    if (platform == "win32") {
-        robot.keyToggle('left', 'down', ['command']);
-        robot.keyTap('d');
-        robot.keyToggle('left', 'up', ['command']);
-    } else {
-        createPanicWindow(); // No equivalent key combination (WIN+D), so just override and create panic window.
-    }
+    // Command to minimize all windows in PowerShell
+    const command = 'Add-Type -Name Window -Namespace Console -MemberDefinition "[DllImport(\\"User32.dll\\\")][returntype:bool]public static extern bool ShowWindow(IntPtr hWnd,int nCmdShow);" ' +
+                    '$HWND_BROADCAST = [IntPtr]::Zero; ' +
+                    '[Console.Window]::ShowWindow($HWND_BROADCAST, 6);';
+
+    // Execute the command in PowerShell
+    exec(`powershell -command "${command}"`, (error, stdout, stderr) => {
+        if (error) {
+            console.error(`Error executing command: ${error.message}`);
+            return;
+        }
+        if (stderr) {
+            console.error(`Command stderr: ${stderr}`);
+            return;
+        }
+        console.log(`Command stdout: ${stdout}`);
+    });
 }
 
 function poweroff() {
