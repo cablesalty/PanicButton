@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <title>Panic Button</title>
+</head>
+
+<body>
+    <h1>Panic Button // Pánik Gomb</h1>
+    <a href="pconf.html">Switch language to 🇬🇧/🇺🇸 English</a>
+    <hr>
+    <h3>Pánik Billenytű</h3>
+    <p id="currentlyBoundKeyDisplay">Jelenleg beálított billenytű betöltése</p>
+    <button onclick="startKeyIdentification()" id="changeBindingBtn">Billenytű módosítása</button>
+    <button onclick="resetToDefaultKeybind()" id="changeBindingBtn">Alapbeállítás visszaállítása (F9)</button><br>
+    <br>
+    <hr>
+    <h3>Pánik REAKCIÓ</h3>
+    <label for="pr">Válassz "reakciót":</label>
+    <select name="pr" id="pr">
+        <option value="fakedesktop">Hamis asztal megjelenítése</option>
+        <option value="poweroff">Számítógép leállítása</option>
+        <option value="logout">Kijelentkezés a számítógépből</option>
+        <option value="ythome">YouTube Kezdőlap megnyitása</option>
+        <option value="ytcablesalty">cablesalty YouTube csatornája</option>
+        <option value="ytpearoo">Pearoo YouTube csatornája</option>
+        <option value="github">Github megnyitása</option>
+        <option value="facebook">Facebook megnyitása (miért?)</option>
+    </select>
+    <br>
+    <label for="muteaudioselection">Rendszerhang némítása?</label>
+    <select name="muteaudioselection" id="muteaudioselection">
+        <option value="mute">Legyen a rendszerhang lenémítva</option>
+        <option value="nomute">Ne legyen a rendszerhang lenémítva</option>
+    </select>
+    <br>
+    <hr>
+    <button onclick="saveConfig()" id="saveConfigBtn">Konfiguráció mentése</button>
+    <button onclick="window.close();" id="saveConfigBtn">Ablak bezárása</button><br>
+    <p style="color: red;">
+        <i>Figyelem! Zárd be ezt az ablakot miután végeztél!
+            Előfordulhat, hogy a Pánik REAKCIÓK nem működnek ha ezt az ablakot nyitva hagyod!
+            A Pánik Gomb szoftver a háttérben fog futni ameddig ki nem lépsz a tálca segítségével (az a nyíl a tálcádon)
+        </i>
+    </p>
+
+    <script>
+        // Modules
+        const fs = require('fs');
+
+        // Read config.json synchronously
+        const configPath = __dirname + '/config.json'; // Path to config
+        const configData = fs.readFileSync(configPath, 'utf8'); // Read file
+        const config = JSON.parse(configData); // Parse json
+        const modifiedConfig = JSON.parse(JSON.stringify(config)); // Create duplicate (for modification)
+
+
+        // Update values based on config
+        document.getElementById("currentlyBoundKeyDisplay").innerHTML = "Jelenleg beállított billentyű: " + config.panickey;
+
+
+
+        // Key Identification
+        let isIdentifying = false;
+
+        function startKeyIdentification() {
+            if (!isIdentifying) {
+                document.getElementById("changeBindingBtn").innerHTML = "Nyomj meg egy gombot! (kattints a megszakításhoz)";
+                isIdentifying = true;
+                document.addEventListener("keydown", keyDownHandler);
+            } else {
+                isIdentifying = false;
+                document.removeEventListener("keydown", keyDownHandler);
+                document.getElementById("changeBindingBtn").innerHTML = "Billenytű módosítása";
+            }
+        }
+
+        function keyDownHandler(event) {
+            const keyPressedElement = document.getElementById("currentlyBoundKeyDisplay"); // Move this line here
+            const pressedKey = event.key.toUpperCase();
+            keyPressedElement.textContent = `Jelenleg beállított billenytű: ${pressedKey}`;
+            modifiedConfig.panickey = pressedKey;
+            document.removeEventListener("keydown", keyDownHandler);
+            isIdentifying = false;
+            document.getElementById("changeBindingBtn").innerHTML = "Billenytű módosítása";
+        }
+
+
+        // Resetting to default keybind
+        function resetToDefaultKeybind() {
+            modifiedConfig.panickey = "F9";
+        }
+
+
+        // Function saving
+        async function saveConfig() {
+            modifiedConfig.panicreaction = document.getElementById("pr").value;
+            modifiedConfig.muteaudio = document.getElementById("muteaudioselection").value;
+
+            fs.writeFileSync(configPath, JSON.stringify(modifiedConfig, null, 2));
+
+            document.getElementById("saveConfigBtn").innerHTML = "Mentve!";
+            setTimeout(() => {
+                document.getElementById("saveConfigBtn").innerHTML = "Konfiguráció mentése";
+            }, 2000);
+        }
+    </script>
+</body>
+
+</html>
