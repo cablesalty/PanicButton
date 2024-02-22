@@ -29,7 +29,12 @@
         <option value="github">Open GitHub</option>
         <option value="facebook">Open Facebook (why tho?)</option>
     </select>
-    <p><i>(Audio will be muted no matter what you choose here.)</i></p>
+    <br>
+    <label for="muteaudioselection">Mute audio?</label>
+    <select name="muteaudioselection" id="muteaudioselection">
+        <option value="mute">Mute audio</option>
+        <option value="nomute">Do not mute audio</option>
+    </select>
     <br>
     <hr>
     <button onclick="saveConfig()" id="saveConfigBtn">Save config</button>
@@ -92,7 +97,10 @@
         // Function saving
         async function saveConfig() {
             modifiedConfig.panicreaction = document.getElementById("pr").value;
+            modifiedConfig.muteaudio = document.getElementById("muteaudioselection").value;
+
             fs.writeFileSync(configPath, JSON.stringify(modifiedConfig, null, 2));
+
             document.getElementById("saveConfigBtn").innerHTML = "Saved!";
             setTimeout(() => {
                 document.getElementById("saveConfigBtn").innerHTML = "Save config";

@@ -1,4 +1,5 @@
 {
   "panickey": "F9",
-  "panicreaction": "fakedesktop"
+  "panicreaction": "fakedesktop",
+  "muteaudio": "true"
 }

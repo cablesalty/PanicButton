@@ -266,12 +266,16 @@ gkm.events.on('key.pressed', function (data) {
                     break;
             }
 
-            muteSystemAudio();
+            if (config.muteaudio == "mute") {
+                muteSystemAudio();
+            }
 
         } else {
             console.log("Leaving panic mode!");
             panicMode = false;
-            unmuteSystemAudio();
+            if (config.muteaudio == "mute") {
+                unmuteSystemAudio();
+            }
             closeAllWindows();
 
         }
