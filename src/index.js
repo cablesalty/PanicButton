@@ -21,15 +21,29 @@ const defaultConfig = { "panickey": "F9", "panicreaction": "fakedesktop", "mutea
 const defaultConfigString = JSON.stringify(defaultConfig, null, 2); // Convert object to JSON string
 const configPath = path.join(userDataPath, 'config.json');
 
-if (!fs.existsSync(configPath)) {
-    fs.writeFile(configPath, defaultConfigString, (err) => {
-        if (err) {
-            console.error('Error writing JSON to file:', err);
+fs.open(configPath, 'wx', (err, fd) => {
+    if (err) {
+        if (err.code === 'EEXIST') {
+            console.log('Config file already exists.');
         } else {
-            console.log('JSON data has been written to data.json');
+            console.error('Error opening config file:', err);
         }
-    });
-}
+    } else {
+        fs.writeFile(fd, defaultConfigString, (err) => {
+            if (err) {
+                console.error('Error writing JSON to file:', err);
+            } else {
+                console.log('Default configuration has been written to config.json');
+            }
+            fs.close(fd, (err) => {
+                if (err) {
+                    console.error('Error closing file:', err);
+                }
+            });
+        });
+    }
+});
+
 
 let configData = fs.readFileSync(configPath, 'utf8');
 let config = JSON.parse(configData);
