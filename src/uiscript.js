@@ -1,6 +1,7 @@
 // Modules
 const fs = require('fs');
 const { ipcRenderer } = require('electron');
+const path = require('path');
 
 let userDataPath;
 
