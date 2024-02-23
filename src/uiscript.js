@@ -4,7 +4,6 @@ const { ipcRenderer } = require('electron');
 const path = require('path');
 
 let userDataPath;
-const defaultConfig = { "panickey": "F9", "panicreaction": "fakedesktop", "muteaudio": "mute" };
 let configPath;
 let configData;
 let config;
