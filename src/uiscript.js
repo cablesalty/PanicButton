@@ -1,5 +1,6 @@
 // Modules
 const fs = require('fs');
+const { app } = require("electron");
 
 const userDataPath = app.getPath('userData');
 console.log(userDataPath);
