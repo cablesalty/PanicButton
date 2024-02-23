@@ -4,20 +4,25 @@ const { ipcRenderer } = require('electron');
 const path = require('path');
 
 let userDataPath;
+const defaultConfig = { "panickey": "F9", "panicreaction": "fakedesktop", "muteaudio": "mute" };
+let configPath;
+let configData;
+let config;
+let modifiedConfig;
 
 // Request userData directory path from main process
 ipcRenderer.invoke('get-userData-path').then((retUserDataPath) => {
     console.log('UserData directory path:', retUserDataPath);
     userDataPath = retUserDataPath;
+
+    configPath = path.join(userDataPath, 'config.json');
+    configData = fs.readFileSync(configPath, 'utf8'); // Read file
+    config = JSON.parse(configData); // Parse json
+    modifiedConfig = JSON.parse(JSON.stringify(config)); // Create duplicate (for modification)
 }).catch((error) => {
     console.error('Error getting userData directory path:', error);
 });
 
-const defaultConfig = { "panickey": "F9", "panicreaction": "fakedesktop", "muteaudio": "mute" };
-const configPath = path.join(userDataPath, 'config.json');
-const configData = fs.readFileSync(configPath, 'utf8'); // Read file
-const config = JSON.parse(configData); // Parse json
-const modifiedConfig = JSON.parse(JSON.stringify(config)); // Create duplicate (for modification)
 
 
 // Update values based on config
