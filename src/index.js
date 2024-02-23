@@ -15,7 +15,7 @@ var devmode = process.env.pb_devmode;
 var panicMode = false;
 var panicButton = "F10";
 
-const configPath = __dirname + '/config.json';
+const configPath = path.join(__dirname, 'config.json');
 let configData = fs.readFileSync(configPath, 'utf8');
 let config = JSON.parse(configData);
 let currentPanicKey = config.panickey;
@@ -144,7 +144,7 @@ app.on('activate', () => {
 });
 
 app.whenReady().then(() => {
-    tray = new Tray(__dirname + "/logo.png");
+    tray = new Tray(path.join(__dirname, "logo.png"));
 
     tray.on("click", (event, bounds, position) => {
         createWindow();
