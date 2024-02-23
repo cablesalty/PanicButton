@@ -45,17 +45,17 @@ function readConfigFile() {
     }
 }
 
+let config;
+let currentPanicKey
+
 if (!fs.existsSync(configPath)) {
-    // If config file doesn't exist, write default config
     writeDefaultConfig(() => {
-        // After writing, read the config file
-        let config = readConfigFile();
-        // Use config or perform any other operations with it
+        config = readConfigFile();
+        currentPanicKey = config.currentPanicKey;
     });
 } else {
-    // If config file exists, just read it
-    let config = readConfigFile();
-    // Use config or perform any other operations with it
+    config = readConfigFile();
+    currentPanicKey = config.currentPanicKey;
 }
 
 
