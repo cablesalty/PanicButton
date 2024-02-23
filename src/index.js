@@ -13,9 +13,24 @@ const { muteSystemAudio, unmuteSystemAudio } = require('./mute'); // Custom js f
 var devmode = process.env.pb_devmode;
 
 var panicMode = false;
-var panicButton = "F10";
 
-const configPath = path.join(__dirname, 'config.json');
+const userDataPath = app.getPath('userData');
+console.log(userDataPath);
+
+const defaultConfig = { "panickey": "F9", "panicreaction": "fakedesktop", "muteaudio": "mute" }
+const defaultConfigString = JSON.stringify(defaultConfig, null, 2); // Convert object to JSON string
+const configPath = path.join(userDataPath, 'config.json');
+
+if (!fs.existsSync(configPath)) {
+    fs.writeFile(configPath, defaultConfigString, (err) => {
+        if (err) {
+            console.error('Error writing JSON to file:', err);
+        } else {
+            console.log('JSON data has been written to data.json');
+        }
+    });
+}
+
 let configData = fs.readFileSync(configPath, 'utf8');
 let config = JSON.parse(configData);
 let currentPanicKey = config.panickey;
