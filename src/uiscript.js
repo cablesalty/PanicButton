@@ -1,7 +1,7 @@
 // Modules
 const fs = require('fs');
 
-const userDataPath = window.userDataPath;
+const userDataPath =  process.argv.find(arg => arg.startsWith('userDataPath=')).split('=')[1];
 console.log(userDataPath);
 
 const defaultConfig = { "panickey": "F9", "panicreaction": "fakedesktop", "muteaudio": "mute" };

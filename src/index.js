@@ -73,8 +73,7 @@ const createWindow = () => {
 
     // Add OS checks
     // We assume that the mac user knows about compatibility issues...
-    mainWindow.loadFile(path.join(__dirname, 'pconf.html')); // Load configuration UI
-
+    mainWindow.loadFile(path.join(__dirname, 'index.html'), { userDataPath: app.getPath('userData') });
 
     if (devmode == "true") {
         mainWindow.webContents.openDevTools(); // Open the DevTools.
