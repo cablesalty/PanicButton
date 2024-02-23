@@ -1,8 +1,7 @@
 // Modules
 const fs = require('fs');
-const { app } = require("electron");
 
-const userDataPath = app.getPath('userData');
+const userDataPath = window.userDataPath;
 console.log(userDataPath);
 
 const defaultConfig = { "panickey": "F9", "panicreaction": "fakedesktop", "muteaudio": "mute" };
