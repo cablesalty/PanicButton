@@ -1,6 +1,8 @@
 <h1 style="text-align:center"><b>Panic Button</b></h1>
 
 ### Display a fake desktop and mute audio on a single keypress
+Have you had enough of people going into your room unannounced while you are watching... *questionable content*? Well we got a solution!  
+PanicButton helps you hide the *"content"* and mute the audio with a press of a button!
 
 ## Compatibility
 Panic Button is compatible with **Windows 10 or above**. Mac functionality is in beta, and Linux compatibility is not possible right now due to inconsistencies between distros and systems.
@@ -23,11 +25,11 @@ cd panicbutton
 #### Install node dependencies:
 ```bat
 npm init -y
-npm i electron electron-forge electron-squirrel-startup gkm loudness
+npm install
 ```
 
 ### Start Panic Button
-Run the command `npm start`. This will create a cmd window. Or start Panic Button using `start.vbs`.
+Run the command `npm start`. This will create a cmd window.
 
 <!-- ## Donation
 If you want to support the project financially, you can either [donate using GitHub](), [PayPal](), or [cryptocurrency]().
