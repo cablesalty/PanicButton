@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Tray, Menu, globalShortcut } = require('electron');
+const { app, BrowserWindow, Tray, Menu, globalShortcut, ipcMain } = require('electron');
 const path = require('path');
 const { exec } = require('child_process');
 const os = require('os');
@@ -147,7 +147,13 @@ const createExternalPanicPageWindow = (url) => {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow);
+app.on('ready', () => {
+    createWindow();
+
+    ipcMain.handle('get-userData-path', () => {
+        return app.getPath('userData');
+    });
+});
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits

@@ -1,8 +1,16 @@
 // Modules
 const fs = require('fs');
+const { ipcRenderer } = require('electron');
 
-const userDataPath =  process.argv.find(arg => arg.startsWith('userDataPath=')).split('=')[1];
-console.log(userDataPath);
+let userDataPath;
+
+// Request userData directory path from main process
+ipcRenderer.invoke('get-userData-path').then((retUserDataPath) => {
+    console.log('UserData directory path:', retUserDataPath);
+    userDataPath = retUserDataPath;
+}).catch((error) => {
+    console.error('Error getting userData directory path:', error);
+});
 
 const defaultConfig = { "panickey": "F9", "panicreaction": "fakedesktop", "muteaudio": "mute" };
 const configPath = path.join(userDataPath, 'config.json');
