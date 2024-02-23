@@ -176,10 +176,12 @@ app.whenReady().then(() => {
             config = readConfigFile();
             currentPanicKey = config.panickey;
         });
+        registerGlobalShortcut(currentPanicKey); // Initial Key Registration
         watchConfig();
     } else {
         config = readConfigFile();
         currentPanicKey = config.panickey;
+        registerGlobalShortcut(currentPanicKey); // Initial Key Registration
         watchConfig();
     }
 
@@ -208,8 +210,6 @@ app.whenReady().then(() => {
     ])
     tray.setToolTip('PanicButton');
     tray.setContextMenu(contextMenu);
-
-    registerGlobalShortcut(currentPanicKey); // Initial Key Registration
 })
 
 
