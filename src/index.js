@@ -6,7 +6,7 @@ const fs = require("fs");
 
 let tray = null;
 
-const platform = os.platform()
+const platform = os.platform();
 
 const { muteSystemAudio, unmuteSystemAudio } = require('./mute'); // Custom js file that *silences* the audio
 
