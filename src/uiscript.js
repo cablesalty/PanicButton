@@ -1,8 +1,11 @@
 // Modules
 const fs = require('fs');
 
-// Read config.json synchronously
-const configPath = __dirname + '/config.json'; // Path to config
+const userDataPath = app.getPath('userData');
+console.log(userDataPath);
+
+const defaultConfig = { "panickey": "F9", "panicreaction": "fakedesktop", "muteaudio": "mute" };
+const configPath = path.join(userDataPath, 'config.json');
 const configData = fs.readFileSync(configPath, 'utf8'); // Read file
 const config = JSON.parse(configData); // Parse json
 const modifiedConfig = JSON.parse(JSON.stringify(config)); // Create duplicate (for modification)
