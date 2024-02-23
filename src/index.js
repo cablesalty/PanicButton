@@ -17,37 +17,46 @@ var panicMode = false;
 const userDataPath = app.getPath('userData');
 console.log(userDataPath);
 
-const defaultConfig = { "panickey": "F9", "panicreaction": "fakedesktop", "muteaudio": "mute" }
+const defaultConfig = { "panickey": "F9", "panicreaction": "fakedesktop", "muteaudio": "mute" };
 const defaultConfigString = JSON.stringify(defaultConfig, null, 2); // Convert object to JSON string
 const configPath = path.join(userDataPath, 'config.json');
 
-fs.open(configPath, 'wx', (err, fd) => {
-    if (err) {
-        if (err.code === 'EEXIST') {
-            console.log('Config file already exists.');
+function writeDefaultConfig() {
+    fs.writeFile(configPath, defaultConfigString, (err) => {
+        if (err) {
+            console.error('Error writing JSON to file:', err);
         } else {
-            console.error('Error opening config file:', err);
+            console.log('Default configuration has been written to config.json');
+            // After writing, immediately read the config file
+            readConfigFile();
         }
-    } else {
-        fs.writeFile(fd, defaultConfigString, (err) => {
-            if (err) {
-                console.error('Error writing JSON to file:', err);
-            } else {
-                console.log('Default configuration has been written to config.json');
-            }
-            fs.close(fd, (err) => {
-                if (err) {
-                    console.error('Error closing file:', err);
-                }
-            });
-        });
+    });
+}
+
+function readConfigFile() {
+    try {
+        let configData = fs.readFileSync(configPath, 'utf8');
+        let config = JSON.parse(configData);
+        console.log('Current config:', config);
+        return config;
+    } catch (err) {
+        console.error('Error reading config file:', err);
+        // If there's an error, return null or handle it accordingly
+        return null;
     }
-});
+}
 
+if (!fs.existsSync(configPath)) {
+    // If config file doesn't exist, write default config
+    writeDefaultConfig();
+} else {
+    // If config file exists, just read it
+    readConfigFile();
+}
 
-let configData = fs.readFileSync(configPath, 'utf8');
-let config = JSON.parse(configData);
-let currentPanicKey = config.panickey;
+// Alternatively, you can directly assign the config to a variable if you need it elsewhere
+let config = readConfigFile();
+
 
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -324,7 +333,7 @@ function registerGlobalShortcut(shortcut) {
 const watcher = fs.watch(configPath, (eventType, filename) => {
     if (eventType === 'change') {
         console.log('config.json has been modified, reloading...');
-        configData = fs.readFileSync(configPath, 'utf8');
+        let configData = fs.readFileSync(configPath, 'utf8');
         config = JSON.parse(configData);
         registerGlobalShortcut(config.panickey);
     }
