@@ -51,11 +51,11 @@ let currentPanicKey
 if (!fs.existsSync(configPath)) {
     writeDefaultConfig(() => {
         config = readConfigFile();
-        currentPanicKey = config.currentPanicKey;
+        currentPanicKey = config.panickey;
     });
 } else {
     config = readConfigFile();
-    currentPanicKey = config.currentPanicKey;
+    currentPanicKey = config.panickey;
 }
 
 
