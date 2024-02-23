@@ -57,6 +57,7 @@ if (!fs.existsSync(configPath)) {
 // Alternatively, you can directly assign the config to a variable if you need it elsewhere
 let config = readConfigFile();
 
+let currentPanicKey = config.panickey;
 
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
