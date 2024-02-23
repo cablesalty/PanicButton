@@ -21,15 +21,14 @@ const defaultConfig = { "panickey": "F9", "panicreaction": "fakedesktop", "mutea
 const defaultConfigString = JSON.stringify(defaultConfig, null, 2); // Convert object to JSON string
 const configPath = path.join(userDataPath, 'config.json');
 
-function writeDefaultConfig() {
+function writeDefaultConfig(callback) {
     fs.writeFile(configPath, defaultConfigString, (err) => {
         if (err) {
             console.error('Error writing JSON to file:', err);
         } else {
             console.log('Default configuration has been written to config.json');
-            // After writing, immediately read the config file
-            readConfigFile();
         }
+        callback(); // Call the callback after writing the file
     });
 }
 
@@ -48,16 +47,17 @@ function readConfigFile() {
 
 if (!fs.existsSync(configPath)) {
     // If config file doesn't exist, write default config
-    writeDefaultConfig();
+    writeDefaultConfig(() => {
+        // After writing, read the config file
+        let config = readConfigFile();
+        // Use config or perform any other operations with it
+    });
 } else {
     // If config file exists, just read it
-    readConfigFile();
+    let config = readConfigFile();
+    // Use config or perform any other operations with it
 }
 
-// Alternatively, you can directly assign the config to a variable if you need it elsewhere
-let config = readConfigFile();
-
-let currentPanicKey = config.panickey;
 
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
