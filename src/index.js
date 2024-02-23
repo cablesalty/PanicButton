@@ -46,7 +46,7 @@ function readConfigFile() {
 }
 
 let config;
-let currentPanicKey
+let currentPanicKey;
 
 if (!fs.existsSync(configPath)) {
     writeDefaultConfig(() => {
