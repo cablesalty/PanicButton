@@ -1,6 +1,5 @@
-const { app, BrowserWindow, Tray, Menu, dialog } = require('electron');
+const { app, BrowserWindow, Tray, Menu, globalShortcut } = require('electron');
 const path = require('path');
-const gkm = require('gkm');
 const { exec } = require('child_process');
 const os = require('os');
 const fs = require("fs");
@@ -19,6 +18,7 @@ var panicButton = "F10";
 const configPath = __dirname + '/config.json';
 let configData = fs.readFileSync(configPath, 'utf8');
 let config = JSON.parse(configData);
+let currentPanicKey = config.panickey;
 
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -169,6 +169,8 @@ app.whenReady().then(() => {
     ])
     tray.setToolTip('PanicButton');
     tray.setContextMenu(contextMenu);
+
+    registerGlobalShortcut(currentPanicKey); // Initial Key Registration
 })
 
 
@@ -221,15 +223,15 @@ function closeAllWindows() {
     });
 }
 
-// Check for all keypresses
-gkm.events.on('key.pressed', function (data) {
-    // Check if the panic button has been pressed
-    if (data == config.panickey) {
+// Function to register a global shortcut
+function registerGlobalShortcut(shortcut) {
+    // Unregister existing shortcut
+    globalShortcut.unregister(currentPanicKey);
+
+    // Register new shortcut
+    const ret = globalShortcut.register(shortcut, () => {
+        console.log(`PB (${shortcut}) is pressed!`);
         closeAllWindows();
-        // Read config again
-        configData = fs.readFileSync(configPath, 'utf8');
-        config = JSON.parse(configData);
-        console.log("PB has been pressed!");
 
         // Check if user is not in panic mode
         if (!panicMode) {
@@ -279,5 +281,22 @@ gkm.events.on('key.pressed', function (data) {
             closeAllWindows();
 
         }
+    });
+
+    if (!ret) {
+        console.log('Panic Key Registration failed');
+    }
+
+    // Update currentPanicKey variable
+    currentPanicKey = shortcut;
+}
+
+// Watch config.json
+const watcher = fs.watch(configPath, (eventType, filename) => {
+    if (eventType === 'change') {
+        console.log('config.json has been modified, reloading...');
+        configData = fs.readFileSync(configPath, 'utf8');
+        config = JSON.parse(configData);
+        registerGlobalShortcut(config.panickey);
     }
 });
