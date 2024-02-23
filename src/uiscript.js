@@ -19,16 +19,12 @@ ipcRenderer.invoke('get-userData-path').then((retUserDataPath) => {
     configData = fs.readFileSync(configPath, 'utf8'); // Read file
     config = JSON.parse(configData); // Parse json
     modifiedConfig = JSON.parse(JSON.stringify(config)); // Create duplicate (for modification)
+
+    // Update values based on config
+    document.getElementById("currentlyBoundKeyDisplay").innerHTML = "Currently bound key: " + config.panickey;
 }).catch((error) => {
     console.error('Error getting userData directory path:', error);
 });
-
-
-
-// Update values based on config
-document.getElementById("currentlyBoundKeyDisplay").innerHTML = "Currently bound key: " + config.panickey;
-
-
 
 // Key Identification
 let isIdentifying = false;
