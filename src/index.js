@@ -48,18 +48,6 @@ function readConfigFile() {
 let config;
 let currentPanicKey;
 
-if (!fs.existsSync(configPath)) {
-    writeDefaultConfig(() => {
-        config = readConfigFile();
-        currentPanicKey = config.panickey;
-    });
-} else {
-    config = readConfigFile();
-    currentPanicKey = config.panickey;
-}
-
-
-
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
     app.quit();
@@ -183,6 +171,16 @@ app.on('activate', () => {
 });
 
 app.whenReady().then(() => {
+    if (!fs.existsSync(configPath)) {
+        writeDefaultConfig(() => {
+            config = readConfigFile();
+            currentPanicKey = config.panickey;
+        });
+    } else {
+        config = readConfigFile();
+        currentPanicKey = config.panickey;
+    }
+    
     tray = new Tray(path.join(__dirname, "logo.png"));
 
     tray.on("click", (event, bounds, position) => {
