@@ -9,7 +9,7 @@ Panic Button is compatible with **Windows 10 or above**. Mac functionality is in
 You can either download and install Panic Button by using [the prebuilt installer](https://github.com/cablesalty/PanicButton/releases/download/Production/PanicButton-1.0.0-Setup.exe), or you can set up Panic Button manually.  
 **We recommend using [the installer](https://github.com/cablesalty/PanicButton/releases/download/Production/PanicButton-1.0.0-Setup.exe).** The installer is always the most stable build of PanicButton.
 
-### Manual installation (not recommended, use the [installer](https://github.com/cablesalty/PanicButton/releases/download/Production/PanicButton-1.0.0-Setup.exe).)
+### Manual installation: (not recommended, use the [installer](https://github.com/cablesalty/PanicButton/releases/download/Production/PanicButton-1.0.0-Setup.exe).)
 ### Install node.js
 Install node.js **LTS** [from the official site](https://nodejs.org/). Panic Button was tested on **node v20.6.1**. 
 
