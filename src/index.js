@@ -176,11 +176,13 @@ app.whenReady().then(() => {
             config = readConfigFile();
             currentPanicKey = config.panickey;
         });
+        watchConfig();
     } else {
         config = readConfigFile();
         currentPanicKey = config.panickey;
+        watchConfig();
     }
-    
+
     tray = new Tray(path.join(__dirname, "logo.png"));
 
     tray.on("click", (event, bounds, position) => {
@@ -329,11 +331,17 @@ function registerGlobalShortcut(shortcut) {
 }
 
 // Watch config.json
-const watcher = fs.watch(configPath, (eventType, filename) => {
-    if (eventType === 'change') {
-        console.log('config.json has been modified, reloading...');
-        let configData = fs.readFileSync(configPath, 'utf8');
-        config = JSON.parse(configData);
-        registerGlobalShortcut(config.panickey);
-    }
-});
+function watchConfig() {
+    const watcher = fs.watch(configPath, (eventType, filename) => {
+        if (eventType === 'change') {
+            console.log('config.json has been modified, reloading...');
+            let configData = fs.readFileSync(configPath, 'utf8');
+            config = JSON.parse(configData);
+            registerGlobalShortcut(config.panickey);
+        }
+    });
+
+    watcher.on('error', (error) => {
+        console.error('Error watching file:', error);
+    });
+}
