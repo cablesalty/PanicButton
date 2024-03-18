@@ -38,6 +38,12 @@
         <option value="nomute">Do not mute audio</option>
     </select>
     <br>
+    <label for="autorun">Start PanicButton automatically on login?</label>
+    <select name="autorun" id="autorun">
+        <option value="nostart">No, Do not start automatically</option>
+        <option value="onlogin">Yes, start PanicButton on login</option>
+    </select>
+    <br>
     <hr>
     <button onclick="saveConfig()" id="saveConfigBtn">Save config</button>
     <button onclick="window.close();" id="saveConfigBtn">Close configuration window</button><br>

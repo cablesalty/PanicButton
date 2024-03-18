@@ -6,20 +6,28 @@ const fs = require("fs");
 
 let tray = null;
 
-const platform = os.platform();
+const platform = os.platform(); // Get operating system
+let shellstartup = ""; // Path for shell:startup (declared here, value gets added later)
+let installdir = ""; // Default installation dir (declared here, value gets added later)
 
 const { muteSystemAudio, unmuteSystemAudio } = require('./mute'); // Custom js file that *silences* the audio
 
 var devmode = process.env.pb_devmode;
-
 var panicMode = false;
 
 const userDataPath = app.getPath('userData');
 console.log(userDataPath);
 
-const defaultConfig = { "panickey": "F9", "panicreaction": "fakedesktop", "muteaudio": "mute" };
+const defaultConfig = { "panickey": "F9", "panicreaction": "fakedesktop", "muteaudio": "mute", "autorun": "norun" };
 const defaultConfigString = JSON.stringify(defaultConfig, null, 2); // Convert object to JSON string
 const configPath = path.join(userDataPath, 'config.json');
+
+if (platform == "win32") { // Define shell:startup and installation dir for windows
+    shellstartup = path.join(process.env.APPDATA, "Windows", "Start Menu", "Programs", "Startup");
+    installdir = path.join(process.env.LOCALAPPDATA, "panicbutton");
+} else { // Other OSes are currently unsupported.
+    console.warn("Unsupported OS for shell:startup: " + platform);
+}
 
 function writeDefaultConfig(callback) {
     fs.writeFile(configPath, defaultConfigString, (err) => {
@@ -338,11 +346,28 @@ function registerGlobalShortcut(shortcut) {
 // Watch config.json
 function watchConfig() {
     const watcher = fs.watch(configPath, (eventType, filename) => {
+
+        // If config file updated
         if (eventType === 'change') {
             console.log('config.json has been modified, reloading...');
+
+            // Reload data
             let configData = fs.readFileSync(configPath, 'utf8');
             config = JSON.parse(configData);
-            registerGlobalShortcut(config.panickey);
+            registerGlobalShortcut(config.panickey); // Re-register panic key
+
+            // Check if the program should run on startup
+            if (config.autorun == "onlogin") { // Start on login
+                const content = 'start ' + path.join(installdir, "PanicButton.exe").toString(); // Content for startup script
+
+                fs.writeFile(path.join(shellstartup, "panicbutton.bat"), content, err => {
+                    if (err) { console.error(err); }
+                });
+            } else if (config.autorun == "nostart") { // Delete startup file
+                if (fs.existsSync(path.join(shellstartup, "panicbutton.bat"))) { // If exists, delete
+                    fs.unlinkSync(path.join(shellstartup, "panicbutton.bat")); // Remove the file's symbolic link
+                }
+            }
         }
     });
 

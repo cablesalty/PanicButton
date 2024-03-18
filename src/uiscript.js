@@ -59,13 +59,15 @@ function resetToDefaultKeybind() {
 
 // Function saving
 async function saveConfig() {
-    modifiedConfig.panicreaction = document.getElementById("pr").value;
-    modifiedConfig.muteaudio = document.getElementById("muteaudioselection").value;
+    modifiedConfig.panicreaction = document.getElementById("pr").value; // PanicReaction check
+    modifiedConfig.muteaudio = document.getElementById("muteaudioselection").value; // Mute audio check
+    modifiedConfig.autorun = document.getElementById("autorun").value; // Run on login check
 
+    // Write config file
     fs.writeFileSync(configPath, JSON.stringify(modifiedConfig, null, 2));
 
     document.getElementById("saveConfigBtn").innerHTML = "Saved!";
-    setTimeout(() => {
+    setTimeout(() => { // Change back text to "Save Config" after 2 secs
         document.getElementById("saveConfigBtn").innerHTML = "Save config";
     }, 2000);
 }
