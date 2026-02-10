@@ -6,45 +6,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="index.css">
     <script src="uiscript.js" defer></script>
-    <title>Panic Button</title>
+    <title>PanicButton</title>
 </head>
 
 <body>
-    <h1>Panic Button // Pánik Gomb</h1>
+    <h1>PanicButton</h1>
     <a href="pconf.html">Switch language to 🇬🇧/🇺🇸 English</a>
     <hr>
     <h3>Pánik Billenytű</h3>
-    <p id="currentlyBoundKeyDisplay">Jelenleg beálított billenytű betöltése</p>
+    <p id="currentlyBoundKeyDisplay">Jelenleg beálított billenytű betöltése...</p>
     <button onclick="startKeyIdentification()" id="changeBindingBtn">Billenytű módosítása</button>
     <button onclick="resetToDefaultKeybind()" id="changeBindingBtn">Alapbeállítás visszaállítása (F9)</button><br>
     <br>
     <hr>
-    <h3>Pánik REAKCIÓ</h3>
-    <label for="pr">Válassz "reakciót":</label>
+    <h3>Művelet:</h3>
+    <label for="pr">Válassz egy műveletet ami a gombnyomásra aktiválódik:</label>
     <select name="pr" id="pr">
         <option value="fakedesktop">Hamis asztal megjelenítése</option>
         <option value="poweroff">Számítógép leállítása</option>
-        <option value="logout">Kijelentkezés a számítógépből</option>
+        <option value="logout">Kijelentkezés</option>
         <option value="ythome">YouTube Kezdőlap megnyitása</option>
-        <option value="ytcablesalty">cablesalty YouTube csatornája</option>
-        <option value="ytpearoo">Pearoo YouTube csatornája</option>
         <option value="github">Github megnyitása</option>
-        <option value="facebook">Facebook megnyitása (miért?)</option>
+        <option value="facebook">Facebook megnyitása</option>
     </select>
     <br>
     <label for="muteaudioselection">Rendszerhang némítása?</label>
     <select name="muteaudioselection" id="muteaudioselection">
-        <option value="mute">Legyen a rendszerhang lenémítva</option>
-        <option value="nomute">Ne legyen a rendszerhang lenémítva</option>
+        <option value="mute">Némítás</option>
+        <option value="nomute">Nincs némítás</option>
     </select>
     <br>
     <hr>
-    <button onclick="saveConfig()" id="saveConfigBtn">Konfiguráció mentése</button>
+    <button onclick="saveConfig()" id="saveConfigBtn">Változtatások mentése</button>
     <button onclick="window.close();" id="saveConfigBtn">Ablak bezárása</button><br>
     <p style="color: red;">
         <i>Figyelem! Zárd be ezt az ablakot miután végeztél!
-            Előfordulhat, hogy a Pánik REAKCIÓK nem működnek ha ezt az ablakot nyitva hagyod!
-            A Pánik Gomb szoftver a háttérben fog futni ameddig ki nem lépsz a tálca segítségével (az a nyíl a tálcádon)
+            Előfordulhat, hogy a program nem működik amíg ez az ablak meg van nyitva!
+            A PanicButton a háttérben fog futni ameddig ki nem lépsz a tálca segítségével.
         </i>
     </p>
 
@@ -105,7 +103,7 @@
 
             document.getElementById("saveConfigBtn").innerHTML = "Mentve!";
             setTimeout(() => {
-                document.getElementById("saveConfigBtn").innerHTML = "Konfiguráció mentése";
+                document.getElementById("saveConfigBtn").innerHTML = "Változtatások mentése";
             }, 2000);
         }
     </script>

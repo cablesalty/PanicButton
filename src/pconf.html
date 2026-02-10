@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="index.css">
     <script src="uiscript.js" defer></script>
-    <title>Panic Button</title>
+    <title>PanicButton</title>
 </head>
 
 <body>
-    <h1>Panic Button</h1>
+    <h1>PanicButton</h1>
     <a href="pconf-hu.html">Nyelv váltása 🇭🇺 Magyarra</a>
     <hr>
     <h3>Panic Key</h3>
@@ -19,23 +19,21 @@
     <button onclick="resetToDefaultKeybind()" id="changeBindingBtn">Reset to default (F9)</button><br>
     <br>
     <hr>
-    <h3>Panic REACTION</h3>
-    <label for="pr">Choose a reaction:</label>
+    <h3>Action:</h3>
+    <label for="pr">Choose an action to execute on button press:</label>
     <select name="pr" id="pr">
         <option value="fakedesktop">Show a fake desktop (full screen)</option>
-        <option value="poweroff">Shut down the computer</option>
-        <option value="logout">Log out of this computer</option>
+        <option value="poweroff">Shut down computer</option>
+        <option value="logout">Log out</option>
         <option value="ythome">Open YouTube Homepage</option>
-        <option value="ytcablesalty">Open @cablesalty's YouTube page</option>
-        <option value="ytpearoo">Open @Pearoo's YouTube page</option>
         <option value="github">Open GitHub</option>
-        <option value="facebook">Open Facebook (why tho?)</option>
+        <option value="facebook">Open Facebook</option>
     </select>
     <br>
     <label for="muteaudioselection">Mute audio?</label>
     <select name="muteaudioselection" id="muteaudioselection">
-        <option value="mute">Mute audio</option>
-        <option value="nomute">Do not mute audio</option>
+        <option value="mute">Mute</option>
+        <option value="nomute">Do not mute</option>
     </select>
     <br>
     <hr>
@@ -43,8 +41,8 @@
     <button onclick="window.close();" id="saveConfigBtn">Close configuration window</button><br>
     <p style="color: red;">
         <i>Warning! Close the configuration window after you are done!
-            Panic REACTION might NOT work if config window is open!
-            PanicButton will remain running in the background until you quit
+            The program might NOT work if config window is open!
+            PanicButton will remain running in the background until you quit it from the taskbar.
         </i>
     </p>
 </body>
