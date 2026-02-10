@@ -1,7 +1,7 @@
 {
   "name": "panicbutton",
   "productName": "PanicButton",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Mute audio and hide display contents with a press of a button!",
   "main": "src/index.js",
   "scripts": {
@@ -26,7 +26,7 @@
     "@electron-forge/maker-squirrel": "^7.2.0",
     "@electron-forge/maker-zip": "^7.2.0",
     "@electron-forge/plugin-auto-unpack-natives": "^7.2.0",
-    "electron": "28.2.3"
+    "electron": "^28.3.3"
   },
   "repository": {
     "type": "git",
