@@ -295,19 +295,13 @@ function registerGlobalShortcut(shortcut) {
                 case "ythome":
                     createExternalPanicPageWindow("https://www.youtube.com/");
                     break;
-                case "ytcablesalty":
-                    createExternalPanicPageWindow("https://www.youtube.com/@cablesalty");
-                    break;
-                case "ytpearoo":
-                    createExternalPanicPageWindow("https://www.youtube.com/@Pearoo");
-                    break;
                 case "github":
                     createExternalPanicPageWindow("https://github.com");
                     break;
                 case "facebook":
                     createExternalPanicPageWindow("https://facebook.com");
                     break;
-                default: // If invalid shit is selected
+                default:
                     createPanicWindow();
                     break;
             }
